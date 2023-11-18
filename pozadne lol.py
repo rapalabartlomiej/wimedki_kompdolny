@@ -213,25 +213,23 @@ def lokalizacja(folia,rodzaj,profil,ksztalt,kolor):
 
 
 array=[[]]
-def dodaj_do_schowka():   
-    
+def dodajDoTabeli(): 
+    # jaki numer zamowienia
     nr_zamowienia = ""
     if zks_button_var.get():
         nr_zamowienia = "ZKS"
     elif zkp_button_var.get():
         nr_zamowienia = "ZKP"
     elif inne_button_var.get():
-        nr_zamowienia = tekst_entry_inne.get()
-        
+        nr_zamowienia = tekst_entry_inne.get()        
     user_input_koncowka = tekst_entry_koncowka.get()
-
     final_text = user_input_koncowka
     if len(final_text) < 6 and len(final_text) != 0:
         while len(final_text) != 6:
             final_text = "0" + final_text
     nr_zamowienia = f"{nr_zamowienia}/{final_text}/2023"
     print(nr_zamowienia)
-    ####################################################
+    #jaka folia
     folia = 0
     if folia1_button_var.get():
         folia = 1
@@ -239,25 +237,25 @@ def dodaj_do_schowka():
         folia = 2
     elif folia3_button_var.get():
         folia = 3
-    ################################################
+    #rodzaj
     rodzaj = ""
     if ocynk_button_var.get():
         rodzaj = "oc"
     elif aluminum_button_var.get():
         rodzaj = "al"
-    ###################
+    #kolor
     kolor = ""
     if czarny_button_var.get():
         kolor = "Z CZARNYM"
     elif bez_czarnego_button_var.get():
         kolor = "BEZ CZARNEGO"
-    ######################
+    #profil
     profil = ""
     if profil_button_var.get():
         profil = f"Z PROFILEM"
     elif bez_profilu_button_var.get():
         profil = f"BEZ PROFILA"
-    ##############################
+    #ksztalt
     ksztalt = ""
     if kwadrat_button_var.get():
         ksztalt = "KWADRAT"
@@ -285,9 +283,9 @@ def dodaj_do_schowka():
     elif przycisk_150_var.get():
         grubosc = "1.5"
 
-    print(lokalizacja(folia,rodzaj,profil,ksztalt,kolor))
+    #print(lokalizacja(folia,rodzaj,profil,ksztalt,kolor))
     # Dodanie danych do tabeli
-    tree.insert("", "end", values=(nr_zamowienia, folia,  rodzaj,  profil  ,ksztalt,kolor,  symbol,rozmiar,grubosc))
+    tree.insert("", "end", text="",values=(nr_zamowienia, folia,  rodzaj,  profil  ,ksztalt,kolor,  symbol,rozmiar,grubosc))
     
     
 
@@ -374,7 +372,7 @@ przycisk_125 = tk.Button(root, text="1.25", relief=tk.RAISED, command=wybierz_12
 przycisk_150 = tk.Button(root, text="1.5", relief=tk.RAISED, command=wybierz_150, highlightthickness=0)
 
 # Przycisk "Dodaj"
-dodaj_button = tk.Button(root, text="Dodaj", command=dodaj_do_schowka)
+dodaj_button = tk.Button(root, text="Dodaj", command=dodajDoTabeli)
 
 # pole tekstowe oznaczenie znaka
 symbol = tk.Label(root, text="SYMBOL:")
@@ -427,14 +425,55 @@ dodaj_button.grid(row=8, column=0, columnspan=5, padx=5, pady=10)  # Button ma c
 
 
 
-
+# Przycisk "Usuń"
 def usun_zaznaczone():
     selected_items = tree.selection()
     for item in selected_items:
         tree.delete(item)
-# Przycisk "Usuń"
 usun_button = tk.Button(root, text="Usuń", command=usun_zaznaczone)
 usun_button.grid(row=8, column=6, padx=5, pady=10)
+
+
+
+
+
+
+
+
+
+
+def pobierz_dane_z_drzewa(tree):
+    dane = []
+    for item_id in tree.get_children():
+        # Pobieranie wartości dla danego elementu
+        values = tree.item(item_id, "values")
+        
+        # Dodawanie wartości do tablicy
+        dane.append(values)
+    
+    return dane
+
+def print_dane():
+    dane = pobierz_dane_z_drzewa(tree)
+    print(type(dane))
+    print("Dane z drzewa:")
+    for row in dane:
+        print(row[0])
+
+
+button_pobierz_dane = tk.Button(root, text="Pobierz dane", command=print_dane)
+button_pobierz_dane.grid(row=9, column=6, padx=5, pady=10)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
