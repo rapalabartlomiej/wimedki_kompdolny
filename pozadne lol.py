@@ -182,7 +182,13 @@ def wybierz_125():
     przycisk_150.config(bg="white")
     przycisk_125_var.set(True)
     przycisk_150_var.set(False)
-
+    
+def wybierz_150():
+    przycisk_150.config(bg="red")
+    przycisk_125.config(bg="white")
+    przycisk_150_var.set(True)
+    przycisk_125_var.set(False)
+    
 def lokalizacja(folia,rodzaj,profil,ksztalt,kolor):
     if ksztalt == "B20" or ksztalt == "ROMB":
         kolor = "Z CZARNYM"    
@@ -203,11 +209,9 @@ def lokalizacja(folia,rodzaj,profil,ksztalt,kolor):
     return lokalizacja
 
 
-def wybierz_150():
-    przycisk_150.config(bg="red")
-    przycisk_125.config(bg="white")
-    przycisk_150_var.set(True)
-    przycisk_125_var.set(False)
+
+
+
 array=[[]]
 def dodaj_do_schowka():   
     
@@ -285,7 +289,7 @@ def dodaj_do_schowka():
     # Dodanie danych do tabeli
     tree.insert("", "end", values=(nr_zamowienia, folia,  rodzaj,  profil  ,ksztalt,kolor,  symbol,rozmiar,grubosc))
     
-    ##tkinter.messagebox.showinfo("Sukces", f"Tekst '{final_text}' został skopiowany do schowka.")
+    
 
 # Tworzenie głównego okna
 root = tk.Tk()
@@ -392,11 +396,16 @@ inne_button.grid(row=0, column=2, padx=5, pady=5)
 tekst_entry_inne.grid(row=0, column=3, padx=5, pady=5)
 tekst_entry_koncowka.grid(row=0, column=4, padx=5, pady=5)
 
-ocynk_button.grid(row=2, column=0, padx=5, pady=5, columnspan=3)
-aluminum_button.grid(row=2, column=3, padx=5, pady=5, columnspan=3)
+ocynk_button.grid(row=2, column=1, padx=5, pady=5,)
+aluminum_button.grid(row=2, column=0, padx=5, pady=5,)
+przycisk_125.grid(row=2, column=2, padx=5, pady=5)
+przycisk_150.grid(row=2, column=3, padx=5, pady=5)
 
-profil_button.grid(row=3, column=0, padx=5, pady=5, columnspan=3)
-bez_profilu_button.grid(row=3, column=3, padx=5, pady=5, columnspan=3)
+profil_button.grid(row=3, column=0, padx=5, pady=5)
+bez_profilu_button.grid(row=3, column=1, padx=5, pady=5)
+
+czarny_button.grid(row=3, column=2, padx=5, pady=5,)
+bez_czarnego_button.grid(row=3, column=3, padx=5, pady=5,)
 
 folia1_button.grid(row=1, column=0, padx=5, pady=5)
 folia2_button.grid(row=1, column=1, padx=5, pady=5)
@@ -409,12 +418,26 @@ romb_button.grid(row=4, column=3, padx=5, pady=5)
 osmiokat_button.grid(row=4, column=4, padx=5, pady=5)
 kolo_button.grid(row=4, column=5, padx=5, pady=5)
 
-czarny_button.grid(row=5, column=0, padx=5, pady=5, columnspan=3)
-bez_czarnego_button.grid(row=5, column=3, padx=5, pady=5, columnspan=3)
 
-przycisk_125.grid(row=7, column=0, padx=5, pady=5)
-przycisk_150.grid(row=7, column=1, padx=5, pady=5)
+
+
 dodaj_button.grid(row=8, column=0, columnspan=5, padx=5, pady=10)  # Button ma columnspan=5, aby rozciągnąć się przez cały rzęd
+
+
+
+
+
+
+def usun_zaznaczone():
+    selected_items = tree.selection()
+    for item in selected_items:
+        tree.delete(item)
+# Przycisk "Usuń"
+usun_button = tk.Button(root, text="Usuń", command=usun_zaznaczone)
+usun_button.grid(row=8, column=6, padx=5, pady=10)
+
+
+
 
 # Tabela po prawej stronie
 tree = ttk.Treeview(root, columns=("Button", "Text", "Blacha", "Profil", "Kształt", "Kolor", "Symbol", "Rozmiar", "1.25/1.5"))
@@ -422,15 +445,15 @@ tree = ttk.Treeview(root, columns=("Button", "Text", "Blacha", "Profil", "Kszta�
 for col in ("#0", "#1", "#2", "#3", "#4", "#5", "#6", "#7", "#8", "#9"):
     tree.column(col, width=80)
 
-
+tree.heading("#0", text="ID")
 tree.heading("#1", text="NR_ZAMÓWIENIA")
 tree.heading("#2", text="FOLIA")
-tree.heading("#3", text="RODZAJ_BLACHY")
+tree.heading("#3", text="ROZMIAR")
 tree.heading("#4", text="PROFIL")
 tree.heading("#5", text="KSZTAŁT")
 tree.heading("#6", text="KOLOR")
 tree.heading("#7", text="SYMBOL")
-tree.heading("#8", text="ROZMIAR")
+tree.heading("#8", text="RODZAJ_BLACHY")
 tree.heading("#9", text="GRUBOŚĆ_BLACHY")
 
 tree.grid(row=0, column=6, rowspan=5, padx=0, pady=0)
