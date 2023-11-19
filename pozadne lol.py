@@ -374,12 +374,111 @@ przycisk_150 = tk.Button(root, text="1.5", relief=tk.RAISED, command=wybierz_150
 # Przycisk "Dodaj"
 dodaj_button = tk.Button(root, text="Dodaj", command=dodajDoTabeli)
 
-# pole tekstowe oznaczenie znaka
+# pole tekstowe oznaczenie znaka#############################
 symbol = tk.Label(root, text="SYMBOL:")
 symbol.grid(row=6, column=0, padx=5, pady=5)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def funkcja_po_enter(event):
+    pierwsza_litera = tekst_symbol.get()
+    pierwsza_litera= pierwsza_litera[0]
+    tekst = tekst_symbol.get()
+    
+    
+    if pierwsza_litera=="A":
+        wybierz_trojkat()
+        if tekst == "A7":
+            wybierz_bez_czarnego()
+        else:
+            wybierz_z_czarnym()
+    if tekst[0] =="D":
+        if tekst == "D1" or tekst == "D2":
+            wybierz_romb()
+            wybierz_z_czarnym()
+        else:
+            numer = tekst[1:]
+            numer = numer.replace('a','')
+            numer = numer.replace('b','')
+            numer = numer.replace('c','')
+            numer = numer.replace('d','')
+            print(numer)
+            numer = int(numer)
+            if numer in {6, 15, 16, 17, *range(23, 35), 37, 38, *range(44, 48), 52, 53}:
+                wybierz_z_czarnym()
+                print("roo")
+            else:
+                wybierz_bez_czarnego()
+            
+            
+            
+            
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 tekst_symbol = tk.Entry(root, width=10)
+tekst_symbol.bind("<Return>", funkcja_po_enter)
 tekst_symbol.grid(row=6, column=1, padx=5, pady=5)
+
 
 label = tk.Label(root, text="ROZMIAR:")
 label.grid(row=6, column=2, padx=5, pady=5)
@@ -463,15 +562,6 @@ def print_dane():
 
 button_pobierz_dane = tk.Button(root, text="Pobierz dane", command=print_dane)
 button_pobierz_dane.grid(row=9, column=6, padx=5, pady=10)
-
-
-
-
-
-
-
-
-
 
 
 
