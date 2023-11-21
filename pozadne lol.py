@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import ttk
 import tkinter.messagebox
 import pyperclip
+import time
+from subprocess import call
+import keyboard
 
 def wybierz_zks():
     zks_button.config(bg="red")
@@ -193,18 +196,18 @@ def lokalizacja(folia,rodzaj,profil,ksztalt,kolor):
     if ksztalt == "B20" or ksztalt == "ROMB":
         kolor = "Z CZARNYM"    
     
-    lokalizacja = fr"C:\Users\hala\Desktop\ZNAKI ETYKIETY 2021 FOLIA TYP {str(folia)} ORALITE"
+    lokalizacja = f"C:\\Users\\hala\\Desktop\\ZNAKI ETYKIETY 2021 FOLIA TYP {str(folia)} ORALITE"
     if rodzaj == "oc":
-        lokalizacja = f"{lokalizacja}/OCYNK"
+        lokalizacja = f"{lokalizacja}\\OCYNK"
     elif rodzaj == "al":
-        lokalizacja = f"{lokalizacja}/ALUMINIUM"
+        lokalizacja = f"{lokalizacja}\\ALUMINIUM"
     
     if kolor == "Z CZARNYM":
-        lokalizacja = f"{lokalizacja}/{ksztalt} {profil}"
+        lokalizacja = f"{lokalizacja}\\{ksztalt} {profil}"
     if kolor == "BEZ CZARNEGO" and ksztalt != "TRÓJKĄT":
-        lokalizacja = f"{lokalizacja}/{ksztalt} {profil} -- {ksztalt} {kolor}"
+        lokalizacja = f"{lokalizacja}\\{ksztalt} {profil} -- {ksztalt} {kolor}"
     if kolor == "BEZ CZARNEGO" and ksztalt == "TRÓJKĄT":
-        lokalizacja = f"{lokalizacja}/{ksztalt} {profil} -- ZNAK A7 {kolor}"  
+        lokalizacja = f"{lokalizacja}\\{ksztalt} {profil} -- ZNAK A7 {kolor}"  
   
     return lokalizacja
 
@@ -215,7 +218,7 @@ def lokalizacja(folia,rodzaj,profil,ksztalt,kolor):
 array=[[]]
 def dodajDoTabeli(): 
     # jaki numer zamowienia
-    nr_zamowienia = ""
+    
     if zks_button_var.get():
         nr_zamowienia = "ZKS"
     elif zkp_button_var.get():
@@ -230,7 +233,7 @@ def dodajDoTabeli():
     nr_zamowienia = f"{nr_zamowienia}/{final_text}/2023"
     print(nr_zamowienia)
     #jaka folia
-    folia = 0
+    
     if folia1_button_var.get():
         folia = 1
     elif folia2_button_var.get():
@@ -238,25 +241,25 @@ def dodajDoTabeli():
     elif folia3_button_var.get():
         folia = 3
     #rodzaj
-    rodzaj = ""
+    
     if ocynk_button_var.get():
         rodzaj = "oc"
     elif aluminum_button_var.get():
         rodzaj = "al"
     #kolor
-    kolor = ""
+    
     if czarny_button_var.get():
         kolor = "Z CZARNYM"
     elif bez_czarnego_button_var.get():
         kolor = "BEZ CZARNEGO"
     #profil
-    profil = ""
+    
     if profil_button_var.get():
         profil = f"Z PROFILEM"
     elif bez_profilu_button_var.get():
         profil = f"BEZ PROFILA"
     #ksztalt
-    ksztalt = ""
+    
     if kwadrat_button_var.get():
         ksztalt = "KWADRAT"
     elif prostokat_button_var.get():
@@ -277,15 +280,17 @@ def dodajDoTabeli():
     if tekst_symbol.get():
         symbol = f"{tekst_symbol.get()}"
 
-    grubosc = ""
+    
     if przycisk_125_var.get():
         grubosc = "1.25"
     elif przycisk_150_var.get():
         grubosc = "1.5"
+    if wimedki_pole.get():
+        ilosc_wimedek = wimedki_pole.get()
 
     #print(lokalizacja(folia,rodzaj,profil,ksztalt,kolor))
     # Dodanie danych do tabeli
-    tree.insert("", "end", text="",values=(nr_zamowienia, folia,  rodzaj,  profil  ,ksztalt,kolor,  symbol,rozmiar,grubosc))
+    tree.insert("", "end", text="",values=(ilosc_wimedek,nr_zamowienia, folia, rozmiar ,  profil  ,ksztalt,kolor,  symbol,rodzaj,grubosc))
     
     
 
@@ -377,34 +382,16 @@ dodaj_button = tk.Button(root, text="Dodaj", command=dodajDoTabeli)
 # pole tekstowe oznaczenie znaka#############################
 symbol = tk.Label(root, text="SYMBOL:")
 symbol.grid(row=6, column=0, padx=5, pady=5)
+wimedki_pole = tk.Entry(root, width=10)
+wimedki_pole.grid(row=8, column=1, padx=5, pady=5)
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+wimedki = tk.Label(root, text="ILOSC WIMEDEK")
+wimedki.grid(row=8, column=0, padx=5, pady=5)
 
 
 def funkcja_po_enter(event):
@@ -439,36 +426,6 @@ def funkcja_po_enter(event):
             
             
             
-            
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -485,6 +442,17 @@ label.grid(row=6, column=2, padx=5, pady=5)
 
 tekst_size = tk.Entry(root, width=10)
 tekst_size.grid(row=6, column=3, padx=5, pady=5)
+
+#wybrana_proporcja = tk.StringVar(value=None)
+#ratio_600 = tk.Radiobutton(root, text="600x600", variable=wybrana_proporcja, value="600x600",command=wybierz_kwadrat)
+#ratio_600.grid(row=10, column=1, padx=10, pady=10)
+
+
+#ratio_600 = tk.Radiobutton(root, text="44x44", variable=wybrana_proporcja, value="4x4",command=wybierz_kwadrat)
+#ratio_600.grid(row=10, column=2, padx=10, pady=10)
+
+#ratio_600 = tk.Radiobutton(root, text="3x3", variable=wybrana_proporcja, value="3x3",command=wybierz_kwadrat)
+#ratio_600.grid(row=10, column=3, padx=10, pady=10)
 
 # Ustawienie odstępów między elementami
 zks_button.grid(row=0, column=0, padx=5, pady=5)
@@ -518,7 +486,7 @@ kolo_button.grid(row=4, column=5, padx=5, pady=5)
 
 
 
-dodaj_button.grid(row=8, column=0, columnspan=5, padx=5, pady=10)  # Button ma columnspan=5, aby rozciągnąć się przez cały rzęd
+dodaj_button.grid(row=8, column=5, columnspan=1, padx=5, pady=10)  # Button ma columnspan=5, aby rozciągnąć się przez cały rzęd
 
 
 
@@ -556,9 +524,50 @@ def print_dane():
     dane = pobierz_dane_z_drzewa(tree)
     print(type(dane))
     print("Dane z drzewa:")
+    x = 1
     for row in dane:
-        print(row[0])
-
+        lok = "otworz" + lokalizacja(row[2],row[8],row[4],row[5],row[6])+".kkk"
+        print(lok)
+        #call(('cmd', '/c', 'start', '', lok))
+        keyboard.press_and_release('ctrl+p')
+        time.sleep(x)
+        keyboard.press_and_release('ctrl+a')
+        time.sleep(x)
+        pyperclip.copy(row[1])
+        time.sleep(x)
+        keyboard.press_and_release('ctrl+v')
+        time.sleep(x)
+        keyboard.press_and_release('tab')
+        time.sleep(x)
+        keyboard.press_and_release('tab')
+        time.sleep(x)
+        keyboard.press_and_release('ctrl+a')
+        time.sleep(x)
+        pyperclip.copy(row[7])
+        keyboard.press_and_release('ctrl+v')
+        time.sleep(x)
+        keyboard.press_and_release('tab')
+        time.sleep(x)
+        pyperclip.copy(row[3])
+        time.sleep(x)
+        keyboard.press_and_release('ctrl+a')
+        time.sleep(x)
+        keyboard.press_and_release('ctrl+v')
+        time.sleep(x)
+        keyboard.press_and_release('enter')
+        time.sleep(x)
+        pyperclip.copy(row[0])
+        time.sleep(x)
+        keyboard.press_and_release('ctrl+v')
+        time.sleep(x)
+        keyboard.press_and_release('enter')
+        
+        
+        # Zamknięcie wszystkich procesów o nazwie "down load.jpg"
+        #call(('taskkill', '/F', '/IM', 'PhotosApp.exe'))
+        print("ctrp")
+        print(row)
+#(ilosc_wimedek,nr_zamowienia, folia, rozmiar ,  profil  ,ksztalt,kolor,  symbol,rodzaj,grubosc))
 
 button_pobierz_dane = tk.Button(root, text="Pobierz dane", command=print_dane)
 button_pobierz_dane.grid(row=9, column=6, padx=5, pady=10)
@@ -569,22 +578,27 @@ button_pobierz_dane.grid(row=9, column=6, padx=5, pady=10)
 
 
 # Tabela po prawej stronie
-tree = ttk.Treeview(root, columns=("Button", "Text", "Blacha", "Profil", "Kształt", "Kolor", "Symbol", "Rozmiar", "1.25/1.5"))
+tree = ttk.Treeview(root, columns=("ilosc","Button", "Text", "Blacha", "Profil", "Kształt", "Kolor", "Symbol", "Rozmiar", "1.25/1.5"))
 # Ustaw szerokość kolumny numer 1 na 20 pikseli
-for col in ("#0", "#1", "#2", "#3", "#4", "#5", "#6", "#7", "#8", "#9"):
+for col in ("#0", "#1", "#2", "#3", "#4", "#5", "#6", "#7", "#8", "#9","#10"):
     tree.column(col, width=80)
 
-tree.heading("#0", text="ID")
-tree.heading("#1", text="NR_ZAMÓWIENIA")
-tree.heading("#2", text="FOLIA")
-tree.heading("#3", text="ROZMIAR")
-tree.heading("#4", text="PROFIL")
-tree.heading("#5", text="KSZTAŁT")
-tree.heading("#6", text="KOLOR")
-tree.heading("#7", text="SYMBOL")
-tree.heading("#8", text="RODZAJ_BLACHY")
-tree.heading("#9", text="GRUBOŚĆ_BLACHY")
+
+tree.heading("#1", text="ilosc wimedek:")
+tree.heading("#2", text="NR_ZAMÓWIENIA")
+tree.heading("#3", text="FOLIA")
+tree.heading("#4", text="ROZMIAR")
+tree.heading("#5", text="PROFIL")
+tree.heading("#6", text="KSZTAŁT")
+tree.heading("#7", text="KOLOR")
+tree.heading("#8", text="SYMBOL")
+tree.heading("#9", text="RODZAJ_BLACHY")
+tree.heading("#10", text="GRUBOŚĆ_BLACHY")
 
 tree.grid(row=0, column=6, rowspan=5, padx=0, pady=0)
 
+
+wybierz_ocynk()
+wybierz_zks()
+wybierz_125()
 root.mainloop()
