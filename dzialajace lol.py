@@ -7,68 +7,68 @@ import subprocess
 import keyboard
 
 
-def set_D18A_and_size():
-    tekst_symbol.delete(0, tk.END)
-    tekst_symbol.insert(0, "D18a")
-    tekst_size.delete(0, tk.END)
-    tekst_size.insert(0, "600x750")
+def set_D18a():
+    pole_nazwy_znaku.delete(0, tk.END)
+    pole_nazwy_znaku.insert(0, "D18a")
+    pole_rozmiaru_znaku.delete(0, tk.END)
+    pole_rozmiaru_znaku.insert(0, "600x750")
     wybierz_bez_czarnego()
     wybierz_prostokat()
-    wimedki_pole.focus_set()
+    pole_ilosc_wimedek.focus_set()
 
 
     
     
 def set_u3a_and_size():
-    tekst_symbol.delete(0, tk.END)
-    tekst_symbol.insert(0, "U3a")
-    tekst_size.delete(0, tk.END)
-    tekst_size.insert(0, "600x600")
+    pole_nazwy_znaku.delete(0, tk.END)
+    pole_nazwy_znaku.insert(0, "U3a")
+    pole_rozmiaru_znaku.delete(0, tk.END)
+    pole_rozmiaru_znaku.insert(0, "600x600")
     wybierz_bez_czarnego()
     wybierz_kwadrat()
-def set_B43_and_size():
-    tekst_symbol.delete(0, tk.END)
-    tekst_symbol.insert(0, "B43")
-    tekst_size.delete(0, tk.END)
-    tekst_size.insert(0, "600x600")
+def set_B43():
+    pole_nazwy_znaku.delete(0, tk.END)
+    pole_nazwy_znaku.insert(0, "B43")
+    pole_rozmiaru_znaku.delete(0, tk.END)
+    pole_rozmiaru_znaku.insert(0, "600x600")
     wybierz_z_czarnym()
     wybierz_kwadrat()
-def set_B44_and_size():
-    tekst_symbol.delete(0, tk.END)
-    tekst_symbol.insert(0, "B44")
-    tekst_size.delete(0, tk.END)
-    tekst_size.insert(0, "600x600")
+def set_B44():
+    pole_nazwy_znaku.delete(0, tk.END)
+    pole_nazwy_znaku.insert(0, "B44")
+    pole_rozmiaru_znaku.delete(0, tk.END)
+    pole_rozmiaru_znaku.insert(0, "600x600")
     wybierz_z_czarnym()
     wybierz_kwadrat()
 def set_u3a_bez_czarnego_prostokat():
-    tekst_symbol.delete(0, tk.END)
-    tekst_symbol.insert(0, "U3a")
-    tekst_size.delete(0, tk.END)
-    tekst_size.insert(0, "600x600")
+    pole_nazwy_znaku.delete(0, tk.END)
+    pole_nazwy_znaku.insert(0, "U3a")
+    pole_rozmiaru_znaku.delete(0, tk.END)
+    pole_rozmiaru_znaku.insert(0, "600x600")
     wybierz_bez_czarnego()
     wybierz_prostokat()
 
 def set_u6a_bez_czarnego_prostokat():
-    tekst_symbol.delete(0, tk.END)
-    tekst_symbol.insert(0, "U6a")
-    tekst_size.delete(0, tk.END)
-    tekst_size.insert(0, "500x750")
+    pole_nazwy_znaku.delete(0, tk.END)
+    pole_nazwy_znaku.insert(0, "U6a")
+    pole_rozmiaru_znaku.delete(0, tk.END)
+    pole_rozmiaru_znaku.insert(0, "500x750")
     wybierz_bez_czarnego()
     wybierz_prostokat()
 
 def set_e15_prostokat_z_czarnym():
-    tekst_symbol.delete(0, tk.END)
-    tekst_symbol.insert(0, "E15")
-    tekst_size.delete(0, tk.END)
-    tekst_size.insert(0, "600x300")
+    pole_nazwy_znaku.delete(0, tk.END)
+    pole_nazwy_znaku.insert(0, "E15")
+    pole_rozmiaru_znaku.delete(0, tk.END)
+    pole_rozmiaru_znaku.insert(0, "600x300")
     wybierz_z_czarnym()
     wybierz_prostokat()
 
 def set_g1_bez_czarnego_prostokat():
-    tekst_symbol.delete(0, tk.END)
-    tekst_symbol.insert(0, "G1")
-    tekst_size.delete(0, tk.END)
-    tekst_size.insert(0, "300x1000")
+    pole_nazwy_znaku.delete(0, tk.END)
+    pole_nazwy_znaku.insert(0, "G1")
+    pole_rozmiaru_znaku.delete(0, tk.END)
+    pole_rozmiaru_znaku.insert(0, "300x1000")
     wybierz_bez_czarnego()
     wybierz_prostokat()
 
@@ -259,9 +259,9 @@ def wybierz_150():
     przycisk_125_var.set(False)
     
 def funkcja_po_enter(event):
-    pierwsza_litera = tekst_symbol.get()
+    pierwsza_litera = pole_nazwy_znaku.get()
     pierwsza_litera= pierwsza_litera[0]
-    tekst = tekst_symbol.get()
+    tekst = pole_nazwy_znaku.get()
     
     
     if pierwsza_litera=="A":
@@ -372,19 +372,19 @@ def dodajDoTabeli():
         ksztalt = "KOŁO"
     ###############
         
-    if tekst_size.get():
-        rozmiar = f"{tekst_size.get()}"
+    if pole_rozmiaru_znaku.get():
+        rozmiar = f"{pole_rozmiaru_znaku.get()}"
 
-    if tekst_symbol.get():
-        symbol = f"{tekst_symbol.get()}"
+    if pole_nazwy_znaku.get():
+        symbol = f"{pole_nazwy_znaku.get()}"
 
     
     if przycisk_125_var.get():
         grubosc = "1.25"
     elif przycisk_150_var.get():
         grubosc = "1.5"
-    if wimedki_pole.get():
-        ilosc_wimedek = wimedki_pole.get()
+    if pole_ilosc_wimedek.get():
+        ilosc_wimedek = pole_ilosc_wimedek.get()
     else:
         ilosc_wimedek = 1
 
@@ -400,7 +400,7 @@ def usun_zaznaczone():
     selected_items = tree.selection()
     for item in selected_items:
         tree.delete(item)
-def pobierz_dane_z_drzewa(tree):
+def pobierz_dane_z_tabeli(tree):
     dane = []
     for item_id in tree.get_children():
         # Pobieranie wartości dla danego elementu
@@ -411,8 +411,8 @@ def pobierz_dane_z_drzewa(tree):
     
     return dane
 
-def print_dane():
-    dane = pobierz_dane_z_drzewa(tree)
+def drukuj_wszystko():
+    dane = pobierz_dane_z_tabeli(tree)
     print(type(dane))
     print("Dane z drzewa:")
     x = 0.07
@@ -474,7 +474,7 @@ def print_dane():
         
         
 root = tk.Tk()
-root.title("Linia z przyciskami")
+root.title("Drukowanie")
 
 # Zmienna do przechowywania stanu przycisków ZKS, ZKP i Inne
 zks_button_var = tk.BooleanVar()
@@ -557,33 +557,38 @@ przycisk_150 = tk.Button(root, text="1.5", relief=tk.RAISED, command=wybierz_150
 # Przycisk "Dodaj"
 dodaj_button = tk.Button(root, text="Dodaj", command=dodajDoTabeli)
 
-# pole tekstowe oznaczenie znaka#############################
-symbol = tk.Label(root, text="SYMBOL:",font=("Helvetica", 12))
-symbol.grid(row=6, column=0, padx=5, pady=5)
 
 
 
 
-tekst_symbol = tk.Entry(root, width=10,font=("Helvetica", 12))
-tekst_symbol.bind("<Return>", funkcja_po_enter)
-tekst_symbol.grid(row=6, column=1, padx=5, pady=5)
-
-
-label = tk.Label(root, text="ROZMIAR:",font=("Helvetica", 12))
-label.grid(row=6, column=2, padx=5, pady=5)
-
-tekst_size = tk.Entry(root, width=10,font=("Helvetica", 12))
-tekst_size.grid(row=6, column=3, padx=5, pady=5)
-
-
-wimedki_pole = tk.Entry(root, width=10,font=("Helvetica", 12))
-wimedki_pole.grid(row=6, column=5, padx=5, pady=5)
 
 
 
+# SYMBOL
+symbol_napis = tk.Label(root, text="SYMBOL:",font=("Helvetica", 12))
+symbol_napis.grid(row=6, column=0, padx=5, pady=5)
 
-wimedki = tk.Label(root, text="ILOSC",font=("Helvetica", 12))
-wimedki.grid(row=6, column=4, padx=5, pady=5)
+pole_nazwy_znaku = tk.Entry(root, width=10,font=("Helvetica", 12))
+pole_nazwy_znaku.bind("<Return>", funkcja_po_enter)
+pole_nazwy_znaku.grid(row=6, column=1, padx=5, pady=5)
+
+#ROZMIAR
+rozmiar_napis = tk.Label(root, text="ROZMIAR:",font=("Helvetica", 12))
+rozmiar_napis.grid(row=6, column=2, padx=5, pady=5)
+
+pole_rozmiaru_znaku = tk.Entry(root, width=10,font=("Helvetica", 12))
+pole_rozmiaru_znaku.grid(row=6, column=3, padx=5, pady=5)
+
+#ILOSC
+ilosc_napis = tk.Label(root, text="ILOSC",font=("Helvetica", 12))
+ilosc_napis.grid(row=6, column=4, padx=5, pady=5)
+
+pole_ilosc_wimedek = tk.Entry(root, width=10,font=("Helvetica", 12))
+pole_ilosc_wimedek.grid(row=6, column=5, padx=5, pady=5)
+
+
+
+
 
 
 # Ustawienie odstępów między elementami
@@ -630,23 +635,8 @@ usun_button = tk.Button(root, text="Usuń", command=usun_zaznaczone)
 usun_button.grid(row=8, column=6, padx=5, pady=10)
 
 
-
-
-
-
-
-
-
-
-
-#(ilosc_wimedek,nr_zamowienia, folia, rozmiar ,  profil  ,ksztalt,kolor,  symbol,rodzaj,grubosc))
-
-button_pobierz_dane = tk.Button(root, text="Pobierz dane", command=print_dane)
-button_pobierz_dane.grid(row=9, column=6, padx=5, pady=10)
-
-
-
-
+drukuj_wszystko = tk.Button(root, text="Drukuj wszystko", command=drukuj_wszystko)
+drukuj_wszystko.grid(row=9, column=6, padx=5, pady=10)
 
 
 # Tabela po prawej stronie
@@ -684,13 +674,13 @@ u3a_button = tk.Button(root, text=" U3a", command=set_u3a_and_size)
 u3a_button.grid(row=9, column=0, padx=5, pady=1)
 
 
-u3a_button = tk.Button(root, text="B43", command=set_B43_and_size)
+u3a_button = tk.Button(root, text="B43", command=set_B43)
 u3a_button.grid(row=8, column=0, padx=5, pady=1)
 
-u3a_button = tk.Button(root, text="B44", command=set_B44_and_size)
+u3a_button = tk.Button(root, text="B44", command=set_B44)
 u3a_button.grid(row=8, column=1, padx=5, pady=1)
 
-D18a_button = tk.Button(root, text="D18a", command=set_D18A_and_size)
+D18a_button = tk.Button(root, text="D18a", command=set_D18a)
 D18a_button.grid(row=8, column=2, padx=5, pady=1)
 
 
