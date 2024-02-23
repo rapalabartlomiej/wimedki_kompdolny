@@ -6,6 +6,72 @@ import time
 import subprocess
 import keyboard
 
+
+def set_D18A_and_size():
+    tekst_symbol.delete(0, tk.END)
+    tekst_symbol.insert(0, "D18a")
+    tekst_size.delete(0, tk.END)
+    tekst_size.insert(0, "600x750")
+    wybierz_bez_czarnego()
+    wybierz_prostokat()
+    wimedki_pole.focus_set()
+
+
+    
+    
+def set_u3a_and_size():
+    tekst_symbol.delete(0, tk.END)
+    tekst_symbol.insert(0, "U3a")
+    tekst_size.delete(0, tk.END)
+    tekst_size.insert(0, "600x600")
+    wybierz_bez_czarnego()
+    wybierz_kwadrat()
+def set_B43_and_size():
+    tekst_symbol.delete(0, tk.END)
+    tekst_symbol.insert(0, "B43")
+    tekst_size.delete(0, tk.END)
+    tekst_size.insert(0, "600x600")
+    wybierz_z_czarnym()
+    wybierz_kwadrat()
+def set_B44_and_size():
+    tekst_symbol.delete(0, tk.END)
+    tekst_symbol.insert(0, "B44")
+    tekst_size.delete(0, tk.END)
+    tekst_size.insert(0, "600x600")
+    wybierz_z_czarnym()
+    wybierz_kwadrat()
+def set_u3a_bez_czarnego_prostokat():
+    tekst_symbol.delete(0, tk.END)
+    tekst_symbol.insert(0, "U3a")
+    tekst_size.delete(0, tk.END)
+    tekst_size.insert(0, "600x600")
+    wybierz_bez_czarnego()
+    wybierz_prostokat()
+
+def set_u6a_bez_czarnego_prostokat():
+    tekst_symbol.delete(0, tk.END)
+    tekst_symbol.insert(0, "U6a")
+    tekst_size.delete(0, tk.END)
+    tekst_size.insert(0, "500x750")
+    wybierz_bez_czarnego()
+    wybierz_prostokat()
+
+def set_e15_prostokat_z_czarnym():
+    tekst_symbol.delete(0, tk.END)
+    tekst_symbol.insert(0, "E15")
+    tekst_size.delete(0, tk.END)
+    tekst_size.insert(0, "600x300")
+    wybierz_z_czarnym()
+    wybierz_prostokat()
+
+def set_g1_bez_czarnego_prostokat():
+    tekst_symbol.delete(0, tk.END)
+    tekst_symbol.insert(0, "G1")
+    tekst_size.delete(0, tk.END)
+    tekst_size.insert(0, "300x1000")
+    wybierz_bez_czarnego()
+    wybierz_prostokat()
+
 def wybierz_zks():
     zks_button.config(bg="red")
     zkp_button.config(bg="white")
@@ -192,11 +258,42 @@ def wybierz_150():
     przycisk_150_var.set(True)
     przycisk_125_var.set(False)
     
+def funkcja_po_enter(event):
+    pierwsza_litera = tekst_symbol.get()
+    pierwsza_litera= pierwsza_litera[0]
+    tekst = tekst_symbol.get()
+    
+    
+    if pierwsza_litera=="A":
+        wybierz_trojkat()
+        if tekst == "A7":
+            wybierz_bez_czarnego()
+        else:
+            wybierz_z_czarnym()
+    if tekst[0] =="D":
+        if tekst == "D1" or tekst == "D2":
+            wybierz_romb()
+            wybierz_z_czarnym()
+        else:
+            numer = tekst[1:]
+            numer = numer.replace('a','')
+            numer = numer.replace('b','')
+            numer = numer.replace('c','')
+            numer = numer.replace('d','')
+            print(numer)
+            numer = int(numer)
+            if numer in {6, 15, 16, 17, *range(23, 35), 37, 38, *range(44, 48), 52, 53}:
+                wybierz_z_czarnym()
+                print("roo")
+            else:
+                wybierz_bez_czarnego()
+            
+            
 def lokalizacja(folia,rodzaj,profil,ksztalt,kolor):
     if ksztalt == "B20" or ksztalt == "ROMB":
         kolor = "Z CZARNYM"    
     
-    lokalizacja = f"C:\\Users\\hala\\Desktop\\ZNAKI ETYKIETY 2021 FOLIA TYP {str(folia)} ORALITE"
+    lokalizacja = f"C:\\Users\\hala\\Desktop\\ZNAKI ETYKIETY 2024 FOLIA TYP {str(folia)} ORALITE"
     if rodzaj == "oc":
         lokalizacja = f"{lokalizacja}\\OCYNK"
     elif rodzaj == "al":
@@ -216,7 +313,7 @@ def lokalizacja(folia,rodzaj,profil,ksztalt,kolor):
 
 
 
-array=[[]]
+
 def dodajDoTabeli(): 
     # jaki numer zamowienia
     
@@ -231,7 +328,7 @@ def dodajDoTabeli():
     if len(final_text) < 6 and len(final_text) != 0:
         while len(final_text) != 6:
             final_text = "0" + final_text
-    nr_zamowienia = f"{nr_zamowienia}/{final_text}/2023"
+    nr_zamowienia = f"{nr_zamowienia}/{final_text}/2024"
     print(nr_zamowienia)
     #jaka folia
     
@@ -288,6 +385,8 @@ def dodajDoTabeli():
         grubosc = "1.5"
     if wimedki_pole.get():
         ilosc_wimedek = wimedki_pole.get()
+    else:
+        ilosc_wimedek = 1
 
     #print(lokalizacja(folia,rodzaj,profil,ksztalt,kolor))
     # Dodanie danych do tabeli
@@ -296,6 +395,84 @@ def dodajDoTabeli():
     
 
 # Tworzenie głównego okna
+
+def usun_zaznaczone():
+    selected_items = tree.selection()
+    for item in selected_items:
+        tree.delete(item)
+def pobierz_dane_z_drzewa(tree):
+    dane = []
+    for item_id in tree.get_children():
+        # Pobieranie wartości dla danego elementu
+        values = tree.item(item_id, "values")
+        
+        # Dodawanie wartości do tablicy
+        dane.append(values)
+    
+    return dane
+
+def print_dane():
+    dane = pobierz_dane_z_drzewa(tree)
+    print(type(dane))
+    print("Dane z drzewa:")
+    x = 0.07
+    for row in dane:
+        lok = lokalizacja(row[2],row[8],row[4],row[5],row[6])+".etx"
+        print(lok)
+        #call(('cmd', '/c', 'start', '"C:\\Users\\hala\\Desktop\\ZNAKI ETYKIETY 2021 FOLIA TYP 2 ORALITE\\OCYNK\\KOŁO BEZ PROFILA — KOŁO BEZ CZARNEGO.etx"'))
+
+        file_path = lok
+
+
+        subprocess.Popen(['cmd', '/c', 'start', '', file_path], shell=True)
+        time.sleep(2)
+
+        if 1==1:
+            keyboard.press_and_release('ctrl+p')
+            time.sleep(x)
+            keyboard.press_and_release('ctrl+a')
+            time.sleep(x)
+            pyperclip.copy(row[1])
+            time.sleep(x)
+            keyboard.press_and_release('ctrl+v')
+            time.sleep(x)
+            keyboard.press_and_release('tab')
+            time.sleep(x)
+            keyboard.press_and_release('tab')
+
+            keyboard.press_and_release('ctrl+a')
+            keyboard.press_and_release('8')
+            
+            time.sleep(x)
+            keyboard.press_and_release('tab')
+            time.sleep(x)
+            keyboard.press_and_release('ctrl+a')
+            time.sleep(x)
+            pyperclip.copy(row[7])
+            keyboard.press_and_release('ctrl+v')
+            time.sleep(x)
+            keyboard.press_and_release('tab')
+            time.sleep(x)
+            pyperclip.copy(row[3])
+            time.sleep(x)
+            keyboard.press_and_release('ctrl+a')
+            time.sleep(x)
+            keyboard.press_and_release('ctrl+v')
+            time.sleep(x)
+            keyboard.press_and_release('enter')
+            time.sleep(x)
+            pyperclip.copy(row[0])
+            time.sleep(x)
+            keyboard.press_and_release('ctrl+v')
+            time.sleep(x)
+            keyboard.press_and_release('enter')
+            
+        time.sleep(1)
+        subprocess.call(('taskkill', '/F', '/IM', 'etiLABEL.exe'))
+    for item_id in tree.get_children():
+        tree.delete(item_id)   
+        
+        
 root = tk.Tk()
 root.title("Linia z przyciskami")
 
@@ -381,79 +558,33 @@ przycisk_150 = tk.Button(root, text="1.5", relief=tk.RAISED, command=wybierz_150
 dodaj_button = tk.Button(root, text="Dodaj", command=dodajDoTabeli)
 
 # pole tekstowe oznaczenie znaka#############################
-symbol = tk.Label(root, text="SYMBOL:")
+symbol = tk.Label(root, text="SYMBOL:",font=("Helvetica", 12))
 symbol.grid(row=6, column=0, padx=5, pady=5)
-wimedki_pole = tk.Entry(root, width=10)
-wimedki_pole.grid(row=8, column=1, padx=5, pady=5)
 
 
 
 
-
-
-wimedki = tk.Label(root, text="ILOSC WIMEDEK")
-wimedki.grid(row=8, column=0, padx=5, pady=5)
-
-
-def funkcja_po_enter(event):
-    pierwsza_litera = tekst_symbol.get()
-    pierwsza_litera= pierwsza_litera[0]
-    tekst = tekst_symbol.get()
-    
-    
-    if pierwsza_litera=="A":
-        wybierz_trojkat()
-        if tekst == "A7":
-            wybierz_bez_czarnego()
-        else:
-            wybierz_z_czarnym()
-    if tekst[0] =="D":
-        if tekst == "D1" or tekst == "D2":
-            wybierz_romb()
-            wybierz_z_czarnym()
-        else:
-            numer = tekst[1:]
-            numer = numer.replace('a','')
-            numer = numer.replace('b','')
-            numer = numer.replace('c','')
-            numer = numer.replace('d','')
-            print(numer)
-            numer = int(numer)
-            if numer in {6, 15, 16, 17, *range(23, 35), 37, 38, *range(44, 48), 52, 53}:
-                wybierz_z_czarnym()
-                print("roo")
-            else:
-                wybierz_bez_czarnego()
-            
-            
-            
-
-
-
-
-
-
-tekst_symbol = tk.Entry(root, width=10)
+tekst_symbol = tk.Entry(root, width=10,font=("Helvetica", 12))
 tekst_symbol.bind("<Return>", funkcja_po_enter)
 tekst_symbol.grid(row=6, column=1, padx=5, pady=5)
 
 
-label = tk.Label(root, text="ROZMIAR:")
+label = tk.Label(root, text="ROZMIAR:",font=("Helvetica", 12))
 label.grid(row=6, column=2, padx=5, pady=5)
 
-tekst_size = tk.Entry(root, width=10)
+tekst_size = tk.Entry(root, width=10,font=("Helvetica", 12))
 tekst_size.grid(row=6, column=3, padx=5, pady=5)
 
-#wybrana_proporcja = tk.StringVar(value=None)
-#ratio_600 = tk.Radiobutton(root, text="600x600", variable=wybrana_proporcja, value="600x600",command=wybierz_kwadrat)
-#ratio_600.grid(row=10, column=1, padx=10, pady=10)
+
+wimedki_pole = tk.Entry(root, width=10,font=("Helvetica", 12))
+wimedki_pole.grid(row=6, column=5, padx=5, pady=5)
 
 
-#ratio_600 = tk.Radiobutton(root, text="44x44", variable=wybrana_proporcja, value="4x4",command=wybierz_kwadrat)
-#ratio_600.grid(row=10, column=2, padx=10, pady=10)
 
-#ratio_600 = tk.Radiobutton(root, text="3x3", variable=wybrana_proporcja, value="3x3",command=wybierz_kwadrat)
-#ratio_600.grid(row=10, column=3, padx=10, pady=10)
+
+wimedki = tk.Label(root, text="ILOSC",font=("Helvetica", 12))
+wimedki.grid(row=6, column=4, padx=5, pady=5)
+
 
 # Ustawienie odstępów między elementami
 zks_button.grid(row=0, column=0, padx=5, pady=5)
@@ -494,10 +625,7 @@ dodaj_button.grid(row=8, column=5, columnspan=1, padx=5, pady=10)  # Button ma c
 
 
 # Przycisk "Usuń"
-def usun_zaznaczone():
-    selected_items = tree.selection()
-    for item in selected_items:
-        tree.delete(item)
+
 usun_button = tk.Button(root, text="Usuń", command=usun_zaznaczone)
 usun_button.grid(row=8, column=6, padx=5, pady=10)
 
@@ -510,73 +638,7 @@ usun_button.grid(row=8, column=6, padx=5, pady=10)
 
 
 
-def pobierz_dane_z_drzewa(tree):
-    dane = []
-    for item_id in tree.get_children():
-        # Pobieranie wartości dla danego elementu
-        values = tree.item(item_id, "values")
-        
-        # Dodawanie wartości do tablicy
-        dane.append(values)
-    
-    return dane
 
-def print_dane():
-    dane = pobierz_dane_z_drzewa(tree)
-    print(type(dane))
-    print("Dane z drzewa:")
-    x = 0.1
-    for row in dane:
-        lok = lokalizacja(row[2],row[8],row[4],row[5],row[6])+".etx"
-        print(lok)
-        #call(('cmd', '/c', 'start', '"C:\\Users\\hala\\Desktop\\ZNAKI ETYKIETY 2021 FOLIA TYP 2 ORALITE\\OCYNK\\KOŁO BEZ PROFILA — KOŁO BEZ CZARNEGO.etx"'))
-
-        file_path = lok
-
-
-        subprocess.Popen(['cmd', '/c', 'start', '', file_path], shell=True)
-        time.sleep(2)
-
-        if 1==1:
-            keyboard.press_and_release('ctrl+p')
-            time.sleep(x)
-            keyboard.press_and_release('ctrl+a')
-            time.sleep(x)
-            pyperclip.copy(row[1])
-            time.sleep(x)
-            keyboard.press_and_release('ctrl+v')
-            time.sleep(x)
-            keyboard.press_and_release('tab')
-            time.sleep(x)
-            keyboard.press_and_release('tab')
-            time.sleep(x)
-            keyboard.press_and_release('tab')
-            time.sleep(x)
-            keyboard.press_and_release('ctrl+a')
-            time.sleep(x)
-            pyperclip.copy(row[7])
-            keyboard.press_and_release('ctrl+v')
-            time.sleep(x)
-            keyboard.press_and_release('tab')
-            time.sleep(x)
-            pyperclip.copy(row[3])
-            time.sleep(x)
-            keyboard.press_and_release('ctrl+a')
-            time.sleep(x)
-            keyboard.press_and_release('ctrl+v')
-            time.sleep(x)
-            keyboard.press_and_release('enter')
-            time.sleep(x)
-            pyperclip.copy(row[0])
-            time.sleep(x)
-            keyboard.press_and_release('ctrl+v')
-            time.sleep(x)
-            keyboard.press_and_release('enter')
-            
-        time.sleep(1)
-        subprocess.call(('taskkill', '/F', '/IM', 'etiLABEL.exe'))
-    for item_id in tree.get_children():
-        tree.delete(item_id)   
 #(ilosc_wimedek,nr_zamowienia, folia, rozmiar ,  profil  ,ksztalt,kolor,  symbol,rodzaj,grubosc))
 
 button_pobierz_dane = tk.Button(root, text="Pobierz dane", command=print_dane)
@@ -606,6 +668,30 @@ tree.heading("#9", text="RODZAJ_BLACHY")
 tree.heading("#10", text="GRUBOŚĆ_BLACHY")
 
 tree.grid(row=0, column=6, rowspan=5, padx=0, pady=0)
+
+
+
+u6a_button = tk.Button(root, text="U6a", command=set_u6a_bez_czarnego_prostokat)
+u6a_button.grid(row=9, column=2, padx=5, pady=5)
+
+e15_button = tk.Button(root, text="E15", command=set_e15_prostokat_z_czarnym)
+e15_button.grid(row=9, column=3, padx=5, pady=5)
+
+g1_button = tk.Button(root, text="G1", command=set_g1_bez_czarnego_prostokat)
+g1_button.grid(row=9, column=1, padx=5, pady=5)
+
+u3a_button = tk.Button(root, text=" U3a", command=set_u3a_and_size)
+u3a_button.grid(row=9, column=0, padx=5, pady=1)
+
+
+u3a_button = tk.Button(root, text="B43", command=set_B43_and_size)
+u3a_button.grid(row=8, column=0, padx=5, pady=1)
+
+u3a_button = tk.Button(root, text="B44", command=set_B44_and_size)
+u3a_button.grid(row=8, column=1, padx=5, pady=1)
+
+D18a_button = tk.Button(root, text="D18a", command=set_D18A_and_size)
+D18a_button.grid(row=8, column=2, padx=5, pady=1)
 
 
 wybierz_ocynk()
