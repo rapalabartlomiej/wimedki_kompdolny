@@ -6,6 +6,7 @@ import time
 import subprocess
 import keyboard
 import csv
+import re
 
 #region preset
 def set_D18a():
@@ -132,16 +133,13 @@ def wybierz_ocynk():
     aluminum_button.config(bg="white")
     ocynk_button_var.set(True)
     aluminum_button_var.set(False)
-    profil_button_var.set(False)
-    bez_profilu_button_var.set(False)
+    
 
 def wybierz_aluminum():
     aluminum_button.config(bg="red")
     ocynk_button.config(bg="white")
     aluminum_button_var.set(True)
     ocynk_button_var.set(False)
-    profil_button_var.set(False)
-    bez_profilu_button_var.set(False)
 
 def wybierz_profil():
     profil_button.config(bg="red")
@@ -291,30 +289,30 @@ def funkcja_po_enter(event):
     pierwsza_litera= pierwsza_litera[0]
     tekst = pole_nazwy_znaku.get()
     
-    
-    if pierwsza_litera=="A":
-        wybierz_trojkat()
-        if tekst == "A7":
-            wybierz_bez_czarnego()
-        else:
-            wybierz_z_czarnym()
-    if tekst[0] =="D":
-        if tekst == "D1" or tekst == "D2":
-            wybierz_romb()
-            wybierz_z_czarnym()
-        else:
-            numer = tekst[1:]
-            numer = numer.replace('a','')
-            numer = numer.replace('b','')
-            numer = numer.replace('c','')
-            numer = numer.replace('d','')
-            print(numer)
-            numer = int(numer)
-            if numer in {6, 15, 16, 17, *range(23, 35), 37, 38, *range(44, 48), 52, 53}:
-                wybierz_z_czarnym()
-                print("roo")
-            else:
+    if bez_certyfikat_button_var == 1:
+        if pierwsza_litera=="A":
+            wybierz_trojkat()
+            if tekst == "A7":
                 wybierz_bez_czarnego()
+            else:
+                wybierz_z_czarnym()
+        if tekst[0] =="D":
+            if tekst == "D1" or tekst == "D2":
+                wybierz_romb()
+                wybierz_z_czarnym()
+            else:
+                numer = tekst[1:]
+                numer = numer.replace('a','')
+                numer = numer.replace('b','')
+                numer = numer.replace('c','')
+                numer = numer.replace('d','')
+                print(numer)
+                numer = int(numer)
+                if numer in {6, 15, 16, 17, *range(23, 35), 37, 38, *range(44, 48), 52, 53}:
+                    wybierz_z_czarnym()
+                    print("roo")
+                else:
+                    wybierz_bez_czarnego()
 
  
 #region dodawanie usuwanie itd                      
@@ -551,52 +549,6 @@ bez_certyfikat_button_var.set(False)
 bez_certyfikat_button = tk.Button(root, text="BEZ CERTYFIKARU", relief=tk.RAISED, command=wybierz_bez_certyfikatu, highlightthickness=0)
 bez_certyfikat_button.grid(row=3, column=4, padx=5, pady=5,columnspan=2)
 
-
-def csv_pobieranie():
-    wiersz = "" 
-    pozycja = Entry_Do_csv.get()+"/"+csv_pozycja.get().zfill(3)
-    #pozycja = "ilosc_pustki/006"
-    ilosc_pustki = csv_pozycja.get().count(" ")
-    print(ilosc_pustki)
-    if ilosc_pustki == 3:
-        
-        pom =  csv_pozycja.get()
-        pom = pom.strip()
-        pom = int(pom)
-        pom = pom + 1
-        csv_pozycja.delete(0, tk.END)
-        csv_pozycja.insert(0, pom)
-        print("nest")
-    elif ilosc_pustki == 2:
-        dodajDoTabeli()
-        pom =  csv_pozycja.get()
-        pom = pom.strip()
-        pom = int(pom)
-        pom = pom + 1
-        csv_pozycja.delete(0, tk.END)
-        csv_pozycja.insert(0, pom)
-        print("DODAJE")
-    elif ilosc_pustki == 1:
-        funkcja_po_enter(0)
-        print("SZUKAM a7")
-    else:
-        print("szukam CSV")
-        with open(f"C:\\Users\\eninq\\Desktop\\wimedki_kompdolny\\zlecenia.csv", newline='', encoding='ISO-8859-1') as csvfile:
-                csvreader = csv.reader(csvfile, delimiter=';')
-           
-                for row in csvreader:
-                    if pozycja in row[0]:
-                        print(row[5])
-                        wiersz = row                
-    print(wiersz)
-    
-
-Entry_Do_csv = tk.Entry(root, width=15,font=("Helvetica", 20))
-Entry_Do_csv.grid(row=12, column=0,columnspan=2, padx=5, pady=5)
-
-csv_pozycja = tk.Entry(root, width=10,font=("Helvetica", 20))
-csv_pozycja.grid(row=12, column=3, padx=5, pady=5)
-keyboard.add_hotkey('shift+Space', csv_pobieranie)
 
 
 
@@ -862,6 +814,129 @@ def styl_przyciskow():
 
 # Collect all buttons into a list
 
+def insetring_data_from_csv(wiersz):
+    pattern = r"(?:ZNAK|TABLICA\/U\/3\/[AB]|TABLICZKA).*\/[0-9x]*\/(?:OCO|AL)\/(?:1,25|1,5)\/(?:NM|M)\/K\/(?:F|0)\/(?:1|2|3)"
+    if re.search(pattern,wiersz[5]):
+        
+        znak = wiersz[5].split("/")
+        del znak[0]
+        print(znak)
+        
+        #folia
+        print(znak[-1])
+        if str(znak[-1]).startswith("1"):
+            wybierz_folia1()
+        if str(znak[-1]).startswith("2"):
+            wybierz_folia2()
+        if str(znak[-1]).startswith("3"):
+            wybierz_folia3()
+        del znak[-1]     
+        #profil
+               
+        if znak[-1] == "F":
+            wybierz_profil()
+        if znak[-1] == "0":
+            wybierz_bez_profilu()
+        del znak[-1]
+        
+        #klejony        
+        del znak[-1]
+           
+        #malowanie
+        print(znak[-1])
+        if znak[-1] == "NM":
+            wybierz_bez_certyfikatu()
+        del znak[-1]
+        
+        #grubosc
+        if znak[-1] == "1,25":
+            wybierz_125()
+        if znak[-1] == "1,5":
+            wybierz_150()
+        del znak[-1]
+        
+        #ocynko al
+        if znak[-1] == "OCO":
+            wybierz_ocynk()
+        if znak[-1] == "AL":
+            wybierz_aluminum()
+        del znak[-1]
+        
+        pole_rozmiaru_znaku.delete(0, tk.END)
+        pole_rozmiaru_znaku.insert(0, znak[-1])
+        del znak[-1]
+        
+        pole_nazwy_znaku.delete(0, tk.END)
+        #pole_nazwy_znaku.insert(0, str(znak).strip("[").strip("]").strip(",").strip("'"))
+        pole_nazwy_znaku.insert(0,str(str(znak[0]) + str(znak[1])))
+        
+        
+        
+        
+    
+        
+        return True
+    return False
+    
+    
+    
+    
+#test 
+dd = "ZNAK/C/16A/13A/PION/600/OCO/1,5/M/K/F/3"
+insetring_data_from_csv(['ZKS/000497/2024/009/000080', '792509', 'PIS', '2024-01-24 10:29:03', '2024-01-30 00:00:00', dd, 'szt', 'KT/2016/009089', 'ZKS/000497/2024'])
+def next_position():
+    pom =  csv_pozycja.get()
+    pom = pom.strip()
+    pom = int(pom)
+    pom = pom + 1
+    csv_pozycja.delete(0, tk.END)
+    csv_pozycja.insert(0, pom)
+    
+def csv_pobieranie():
+    wiersz = "" 
+    pozycja = Entry_Do_csv.get()+"/"+csv_pozycja.get().zfill(3)
+    #pozycja = "ilosc_pustki/006"
+    ilosc_pustki = csv_pozycja.get().count(" ")
+    print(ilosc_pustki)
+    if ilosc_pustki == 3:
+        next_position()        
+        dodajDoTabeli()
+        print("nest")
+    elif ilosc_pustki == 2:
+        
+        funkcja_po_enter(0)
+        
+        print("rozpoznajer")
+    elif ilosc_pustki == 1:
+        
+        print("wpisuje")
+        
+    else:
+        print("szukam CSV")
+        with open(f"C:\\Users\\eninq\\Desktop\\wimedki_kompdolny\\zlecenia.csv", newline='', encoding='ISO-8859-1') as csvfile:
+                csvreader = csv.reader(csvfile, delimiter=';')
+           
+                for row in csvreader:
+                    if pozycja in row[0]:
+                        print(row[5])
+                        wiersz = row                
+        if wiersz == "":
+            print("ide dalej nic tu nie ma")
+            next_position()
+        else:
+            print(wiersz)
+            operacja = insetring_data_from_csv(wiersz)
+            if operacja == False:
+                next_position()
+        
+    
+
+Entry_Do_csv = tk.Entry(root, width=15,font=("Helvetica", 20))
+Entry_Do_csv.grid(row=12, column=0,columnspan=2, padx=5, pady=5)
+
+csv_pozycja = tk.Entry(root, width=10,font=("Helvetica", 20))
+csv_pozycja.grid(row=12, column=3, padx=5, pady=5)
+keyboard.add_hotkey('shift+Space', csv_pobieranie)
 
 # Call the function with the list of buttons and the desired height
 styl_przyciskow()
