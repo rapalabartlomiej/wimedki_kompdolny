@@ -5,6 +5,7 @@ import pyperclip
 import time
 import subprocess
 import keyboard
+import csv
 
 #region preset
 def set_D18a():
@@ -441,12 +442,12 @@ def drukuj_wszystko():
     print("Dane z drzewa:")
     x = 0.07
     for row in dane:
-        print(row[10])
+        print(row)
         if row[10]=="tak":
             lok = lokalizacja(row[2],row[8],row[4],row[5],row[6])+".etx"
             print(lok)
         else:
-            lok="niecertyfikowane"
+            lok="niecertyfikowane" #------------- tutaj lokalizcja do niecertyfikowanych
         #call(('cmd', '/c', 'start', '"C:\\Users\\hala\\Desktop\\ZNAKI ETYKIETY 2021 FOLIA TYP 2 ORALITE\\OCYNK\\KOŁO BEZ PROFILA — KOŁO BEZ CZARNEGO.etx"'))
 
         file_path = lok
@@ -488,16 +489,42 @@ def drukuj_wszystko():
             time.sleep(x)
             keyboard.press_and_release('tab')
             time.sleep(x)
+            
             pyperclip.copy(row[3])
             time.sleep(x)
             keyboard.press_and_release('ctrl+a')
             time.sleep(x)
             keyboard.press_and_release('ctrl+v')
             time.sleep(x)
+            
+            if row[9]=="1.5":            
+                keyboard.press_and_release('tab')
+                time.sleep(x)
+                pyperclip.copy("gr. 1,5 mm")
+                time.sleep(x)
+                keyboard.press_and_release('ctrl+a')
+                time.sleep(x)
+                keyboard.press_and_release('ctrl+v')
+                time.sleep(x)
+            
+            if row[10]=="nie":#certyfikacja i na koncu folia
+                keyboard.press_and_release('tab')
+                time.sleep(x)
+                pyperclip.copy("TYP" + str(row[2]))
+                time.sleep(x)
+                keyboard.press_and_release('ctrl+a')
+                time.sleep(x)
+                keyboard.press_and_release('ctrl+v')
+                time.sleep(x)
+                
+            
+            
+        
             keyboard.press_and_release('enter')
             time.sleep(x)
             pyperclip.copy(row[0])
             time.sleep(x)
+            
             keyboard.press_and_release('ctrl+v')
             time.sleep(x)
             keyboard.press_and_release('enter')
@@ -523,6 +550,60 @@ bez_certyfikat_button_var = tk.BooleanVar()
 bez_certyfikat_button_var.set(False)
 bez_certyfikat_button = tk.Button(root, text="BEZ CERTYFIKARU", relief=tk.RAISED, command=wybierz_bez_certyfikatu, highlightthickness=0)
 bez_certyfikat_button.grid(row=3, column=4, padx=5, pady=5,columnspan=2)
+
+
+def csv_pobieranie():
+    wiersz = "" 
+    pozycja = Entry_Do_csv.get()+"/"+csv_pozycja.get().zfill(3)
+    #pozycja = "ilosc_pustki/006"
+    ilosc_pustki = csv_pozycja.get().count(" ")
+    print(ilosc_pustki)
+    if ilosc_pustki == 3:
+        
+        pom =  csv_pozycja.get()
+        pom = pom.strip()
+        pom = int(pom)
+        pom = pom + 1
+        csv_pozycja.delete(0, tk.END)
+        csv_pozycja.insert(0, pom)
+        print("nest")
+    elif ilosc_pustki == 2:
+        dodajDoTabeli()
+        pom =  csv_pozycja.get()
+        pom = pom.strip()
+        pom = int(pom)
+        pom = pom + 1
+        csv_pozycja.delete(0, tk.END)
+        csv_pozycja.insert(0, pom)
+        print("DODAJE")
+    elif ilosc_pustki == 1:
+        funkcja_po_enter(0)
+        print("SZUKAM a7")
+    else:
+        print("szukam CSV")
+        with open(f"C:\\Users\\eninq\\Desktop\\wimedki_kompdolny\\zlecenia.csv", newline='', encoding='ISO-8859-1') as csvfile:
+                csvreader = csv.reader(csvfile, delimiter=';')
+           
+                for row in csvreader:
+                    if pozycja in row[0]:
+                        print(row[5])
+                        wiersz = row                
+    print(wiersz)
+    
+
+Entry_Do_csv = tk.Entry(root, width=15,font=("Helvetica", 20))
+Entry_Do_csv.grid(row=12, column=0,columnspan=2, padx=5, pady=5)
+
+csv_pozycja = tk.Entry(root, width=10,font=("Helvetica", 20))
+csv_pozycja.grid(row=12, column=3, padx=5, pady=5)
+keyboard.add_hotkey('shift+Space', csv_pobieranie)
+
+
+
+
+
+
+
 
 
 
@@ -737,7 +818,7 @@ wybierz_ocynk()
 wybierz_zks()
 wybierz_125()
 
-
+"""
 #region skroty klawiszowe:
 keyboard.add_hotkey('shift+1', wybierz_folia1)
 keyboard.add_hotkey('shift+2', wybierz_folia2)
@@ -752,14 +833,16 @@ keyboard.add_hotkey('shift+v', wybierz_bez_czarnego)
 
 keyboard.add_hotkey('shift+space', dodajDoTabeli)
 keyboard.add_hotkey('shift+alt', drukuj_wszystko)
+"""
 all_entry = [pole_ilosc_wimedek,pole_rozmiaru_znaku,pole_nazwy_znaku,tekst_entry_koncowka]
+"""
 def po_odpuszczeniu_shift(e):
     if e.name == 'shift':
         for i in range(len(all_entry)):
             if len(all_entry[i].get()) == 0:
                 all_entry[i].focus_set()
 keyboard.on_release(po_odpuszczeniu_shift)
-
+"""
 
 
 
@@ -772,7 +855,7 @@ def styl_przyciskow():
     usun_button, drukuj_wszystko_button, u6a_button, e15_button, g1_button, u3a_button, D18a_button,bez_certyfikat_button,b44_button,b43_button,
     ]
     for button in all_buttons:
-          button.config(height=3, width=15, padx=0, pady=0,font=("Arial", 10))
+          button.config(font=("Arial", 13))
           #button.grid_configure(padx=0)
     
     
