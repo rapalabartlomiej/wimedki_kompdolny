@@ -72,106 +72,6 @@ def set_g1_bez_czarnego_prostokat():
     wybierz_bez_czarnego()
     wybierz_prostokat()
 #endregion
-
-#region reset
-
-def reset_zks():
-    zks_button.config(bg="white")
-    zkp_button.config(bg="white")
-    inne_button.config(bg="white")
-    zks_button_var.set(False)
-    zkp_button_var.set(False)
-    inne_button_var.set(False)
-    tekst_entry_inne.config(state=tk.DISABLED)
-def reset_folia():
-    folia1_button.config(bg="white")
-    folia2_button.config(bg="white")
-    folia3_button.config(bg="white")
-    folia1_button_var.set(False)
-    folia2_button_var.set(False)
-    folia3_button_var.set(False)
-def reset_ocynk():
-    ocynk_button.config(bg="white")
-    aluminum_button.config(bg="white")
-    ocynk_button_var.set(False)
-    aluminum_button_var.set(False)
-def reset_profil():
-    profil_button.config(bg="white")
-    bez_profilu_button.config(bg="white")
-    profil_button_var.set(False)
-    bez_profilu_button_var.set(False)
-def reset_ksztalt():
-    kwadrat_button.config(bg="white")
-    prostokat_button.config(bg="white")
-    trojkat_button.config(bg="white")
-    romb_button.config(bg="white")
-    osmiokat_button.config(bg="white")
-    kolo_button.config(bg="white")
-    kwadrat_button_var.set(False)
-    prostokat_button_var.set(False)
-    trojkat_button_var.set(False)
-    romb_button_var.set(False)
-    osmiokat_button_var.set(False)
-def reset_czarne():
-    czarny_button.config(bg="white")
-    bez_czarnego_button.config(bg="white")
-    czarny_button_var.set(False)
-    bez_czarnego_button_var.set(False)
-def reset_certyfikacja():
-    bez_certyfikat_button.config(bg="white")
-    bez_certyfikat_button_var.set(False)
-    frame_buttons.config(bg="white")
-def reset_125_15():
-    przycisk_125.config(bg="white")
-    przycisk_150.config(bg="white")
-    przycisk_125_var.set(False)
-    przycisk_150_var.set(False)
-
-def reset_all():
-        reset_zks()
-        reset_folia()
-        reset_ocynk()
-        reset_profil()
-        reset_ksztalt()
-        reset_czarne()
-        reset_certyfikacja()
-        reset_125_15()
-        pole_rozmiaru_znaku.delete(0, tk.END)
-        pole_nazwy_znaku.delete(0, tk.END)
-        pole_ilosc_wimedek.delete(0, tk.END)
-        tekst_entry_koncowka.delete(0, tk.END)
-        tekst_entry_inne.delete(0, tk.END)
-def reset_all(a):
-        reset_folia()
-        reset_ocynk()
-        reset_profil()
-        reset_ksztalt()
-        reset_czarne()
-        reset_certyfikacja()
-        reset_125_15()
-        pole_rozmiaru_znaku.delete(0, tk.END)
-        pole_nazwy_znaku.delete(0, tk.END)
-        pole_ilosc_wimedek.delete(0, tk.END)
-        
-        
-    
-
-
-
-    
-
-
-
-
-
-
-
-
-
-#endregion
-
-
-
 #region przyciski
 
 def wybierz_zks():
@@ -384,72 +284,36 @@ def wybierz_bez_certyfikatu():
     bez_certyfikat_button_var.set(True)
 #endregion
 
-def transfer_numeru():
-    Entry_Do_csv.delete(0, tk.END)
-    Entry_Do_csv.insert(0, pelna_nazwa_zamowienia())
-    csv_pozycja.delete(0, tk.END)
-    csv_pozycja.insert(0, 1)
-    csv_pozycja.focus_set()
-
 def funkcja_po_enter(event):
-    
-    skip = False
-    Symbol = pole_nazwy_znaku.get()
-    rozmiar = pole_rozmiaru_znaku.get()
-    
-    trojkaty_rozmiary = ["1200","1050","900","750","600"]
-    Kola_rozmiary = ["1000","900","800","600","400"]
-    romb_rozmiary = ["600x600","400x400"]
-    
-    if "x" in rozmiar or "X" in rozmiar:
-        x = rozmiar.split("x")
-        if x[0] == x[1]:
-            wybierz_kwadrat()
-        else:
-            wybierz_prostokat()
-    
-    if Symbol == "B20":
-                wybierz_osmiokat()
-                wybierz_bez_czarnego()
-                skip = True
-    if Symbol in ["D1","D2"]:
-        wybierz_romb()
-        wybierz_z_czarnym()
-        skip = True
+    pierwsza_litera = pole_nazwy_znaku.get()
+    pierwsza_litera= pierwsza_litera[0]
+    tekst = pole_nazwy_znaku.get()
     
     
-    if bez_certyfikat_button_var.get() == 0 and skip == False:
-        #print(Symbol.startswith("A"))
-        #print(rozmiar in trojkaty_rozmiary)
-        if Symbol.startswith("A") and rozmiar in trojkaty_rozmiary:
+    if bez_certyfikat_button_var.get() == 0:
+        if pierwsza_litera=="A":
             wybierz_trojkat()
-            if Symbol == "A7":
+            if tekst == "A7":
                 wybierz_bez_czarnego()
             else:
                 wybierz_z_czarnym()
-        
-        if Symbol.startswith("C") and rozmiar in Kola_rozmiary:   
-             wybierz_kolo()
-             if Symbol in ["C19","C18"]:
-                 wybierz_z_czarnym()
-             else:
-                 wybierz_bez_czarnego()
-        
-        if Symbol.startswith("B") and rozmiar in Kola_rozmiary:
-            wybierz_kolo()
-            if Symbol in ["B1","B2","B35","B36","B37","B38"]:
-                wybierz_bez_czarnego()
-            else:
+        if tekst[0] =="D":
+            if tekst == "D1" or tekst == "D2":
+                wybierz_romb()
                 wybierz_z_czarnym()
-        if Symbol.startswith("B") and "x" in rozmiar:
-            wybierz_z_czarnym() 
-            
-            
-            
-            
-            
-        
-        
+            else:
+                numer = tekst[1:]
+                numer = numer.replace('a','')
+                numer = numer.replace('b','')
+                numer = numer.replace('c','')
+                numer = numer.replace('d','')
+                print(numer)
+                numer = int(numer)
+                if numer in {6, 15, 16, 17, *range(23, 35), 37, 38, *range(44, 48), 52, 53}:
+                    wybierz_z_czarnym()
+                    print("roo")
+                else:
+                    wybierz_bez_czarnego()
 
  
 #region dodawanie usuwanie itd                      
@@ -473,7 +337,9 @@ def lokalizacja(folia,rodzaj,profil,ksztalt,kolor):
   
     return lokalizacja
 
-def pelna_nazwa_zamowienia():
+def dodajDoTabeli(): 
+    # jaki numer zamowienia
+    
     if zks_button_var.get():
         nr_zamowienia = "ZKS"
     elif zkp_button_var.get():
@@ -486,13 +352,6 @@ def pelna_nazwa_zamowienia():
         while len(final_text) != 6:
             final_text = "0" + final_text
     nr_zamowienia = f"{nr_zamowienia}/{final_text}/2024"
-    return nr_zamowienia
-
-def dodajDoTabeli(): 
-    # jaki numer zamowienia
-    
-    
-    nr_zamowienia = pelna_nazwa_zamowienia()
     print(nr_zamowienia)
     #jaka folia
     
@@ -587,17 +446,23 @@ def drukuj_wszystko():
             lok = lokalizacja(row[2],row[8],row[4],row[5],row[6])+".etx"
             print(lok)
         else:
-            lok=f"C:\\Users\\hala\\Desktop\\ZNAKI_TABLICE TYMCZASOWE REKLAMA INFORMACYJNE NIE CERTYFIKOWANE\\ZNAKI DO TYMCZASOWEGO OZNAKOWANIA.etx" #------------- tutaj lokalizcja do niecertyfikowanych
+            lok="niecertyfikowane" #------------- tutaj lokalizcja do niecertyfikowanych
         #call(('cmd', '/c', 'start', '"C:\\Users\\hala\\Desktop\\ZNAKI ETYKIETY 2021 FOLIA TYP 2 ORALITE\\OCYNK\\KOŁO BEZ PROFILA — KOŁO BEZ CZARNEGO.etx"'))
 
         file_path = lok
         print("drukuje ========" + lok)
 
-        
-        subprocess.Popen(['cmd', '/c', 'start', '', file_path], shell=True)
-        time.sleep(2)
-        if 1==1:
-            #print("drukuje")
+        try:
+            process = subprocess.Popen(['cmd', '/c', 'start', '', file_path], shell=True, stderr=subprocess.DEVNULL)
+            exit_code = process.wait() 
+            if exit_code != 0:
+                raise Exception("Proces zakończył się błędem.")
+            print("----------------")
+        except Exception as e:
+            print("Nie udało się uruchomić procesu:", e)
+            subprocess.call(('taskkill', '/F', '/IM', 'etiLABEL.exe'))
+        else:  
+            print("drukuje")
             keyboard.press_and_release('ctrl+p')
             time.sleep(x)
             keyboard.press_and_release('ctrl+a')
@@ -630,9 +495,9 @@ def drukuj_wszystko():
             time.sleep(x)
             keyboard.press_and_release('ctrl+v')
             time.sleep(x)
-            keyboard.press_and_release('tab')
+            
             if row[9]=="1.5":            
-                
+                keyboard.press_and_release('tab')
                 time.sleep(x)
                 pyperclip.copy("gr. 1,5 mm")
                 time.sleep(x)
@@ -804,18 +669,17 @@ ilosc_napis.grid(row=6, column=4, padx=5, pady=5)
 pole_ilosc_wimedek = tk.Entry(root, width=10,font=("Helvetica", 12))
 pole_ilosc_wimedek.grid(row=6, column=5, padx=5, pady=5)
 
-reset_all_button = tk.Button(root, text="WYCZYŚĆ", relief=tk.RAISED, command=reset_all, highlightthickness=0)
-reset_all_button.grid(row=8, column=8, padx=5, pady=5)
 
-Transfer = tk.Button(root, text="PRZESLIJ", relief=tk.RAISED, command=transfer_numeru, highlightthickness=0)
-Transfer.grid(row=0, column=5, padx=5, pady=5)
+
+
+
+
 #region grid przyciski
 zks_button.grid(row=0, column=0, padx=5, pady=5)
 zkp_button.grid(row=0, column=1, padx=5, pady=5)
 inne_button.grid(row=0, column=2, padx=5, pady=5)
 tekst_entry_inne.grid(row=0, column=3, padx=5, pady=5)
 tekst_entry_koncowka.grid(row=0, column=4, padx=5, pady=5)
-
 
 folia1_button.grid(row=1, column=0, padx=5, pady=5)
 folia2_button.grid(row=1, column=1, padx=5, pady=5)
@@ -952,8 +816,6 @@ def styl_przyciskow():
 # Collect all buttons into a list
 
 def insetring_data_from_csv(wiersz):
-    print("---" + wiersz[5])
-    reset_all(1)
     pattern = r"(?:ZNAK|TABLICA\/U\/3\/[AB]|TABLICZKA).*\/[0-9x]*\/(?:OCO|AL)\/(?:1,25|1,5)\/(?:NM|M)\/K\/(?:F|0)\/(?:1|2|3)"
     if re.search(pattern,wiersz[5]):
         
@@ -1009,9 +871,6 @@ def insetring_data_from_csv(wiersz):
         #pole_nazwy_znaku.insert(0, str(znak).strip("[").strip("]").strip(",").strip("'"))
         pole_nazwy_znaku.insert(0,str(str(znak[0]) + str(znak[1])))
         
-        pole_ilosc_wimedek.delete(0, tk.END)
-        pole_ilosc_wimedek.insert(0,str(wiersz[7]))
-        
         
         
         
@@ -1036,36 +895,32 @@ def next_position():
     
 def csv_pobieranie():
     wiersz = "" 
-    pozycja = Entry_Do_csv.get()+"/"+str(int(csv_pozycja.get())).zfill(3)
+    pozycja = Entry_Do_csv.get()+"/"+csv_pozycja.get().zfill(3)
     #pozycja = "ilosc_pustki/006"
     ilosc_pustki = csv_pozycja.get().count(" ")
     print(ilosc_pustki)
-    if ilosc_pustki == 2:
+    if ilosc_pustki == 3:
         next_position()        
         dodajDoTabeli()
         print("nest")
-    elif ilosc_pustki == 1:
+    elif ilosc_pustki == 2:
         
         funkcja_po_enter(0)
         
         print("rozpoznajer")
-    elif ilosc_pustki == 0:
+    elif ilosc_pustki == 1:
         
         print("wpisuje")
         
-    #else:
+    else:
         print("szukam CSV")
-        print(pozycja)
-        #with open(f"C:\\Users\\hala\\Downloads\\zlecenia.csv", newline='', encoding='ISO-8859-1') as csvfile:
         with open(f"C:\\Users\\eninq\\Desktop\\wimedki_kompdolny\\zlecenia.csv", newline='', encoding='ISO-8859-1') as csvfile:
                 csvreader = csv.reader(csvfile, delimiter=';')
-                
+           
                 for row in csvreader:
-                    #pozycja = "ZKS/006266/2024/001"
                     if pozycja in row[0]:
                         print(row[5])
                         wiersz = row                
-        print(wiersz)
         if wiersz == "":
             print("ide dalej nic tu nie ma")
             next_position()
