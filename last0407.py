@@ -416,6 +416,11 @@ def funkcja_po_enter(event):
         wybierz_romb()
         wybierz_z_czarnym()
         skip = True
+    if "U3" in Symbol or "G1" in Symbol or "U4" in Symbol or "U6" in Symbol:
+        wybierz_bez_czarnego()
+        skip = True
+    if "TLO" in Symbol or "tlo" in Symbol:
+        wybierz_bez_certyfikatu()
     
     
     if bez_certyfikat_button_var.get() == 0 and skip == False:
@@ -442,7 +447,26 @@ def funkcja_po_enter(event):
             else:
                 wybierz_z_czarnym()
         if Symbol.startswith("B") and "x" in rozmiar:
-            wybierz_z_czarnym() 
+            wybierz_z_czarnym()
+            
+        if Symbol.startswith("D"):
+            Symbol = Symbol[1:]
+            Symbol = Symbol.replace('a','')
+            Symbol = Symbol.replace('b','')
+            Symbol = Symbol.replace('c','')
+            Symbol = Symbol.replace('d','')
+            Symbol = int(Symbol)
+            if Symbol in {6, 15, 16, 17, *range(23, 35), 37, 38, *range(44, 48), *range(52, 56)}:
+                    wybierz_z_czarnym()
+            else:
+                wybierz_bez_czarnego()
+        if Symbol.startswith("T"):
+            if "T1a" in Symbol or "T1a" in Symbol or "28" in Symbol:
+                wybierz_bez_czarnego()
+            else:
+                wybierz_z_czarnym()
+    
+        
             
             
             
@@ -954,6 +978,12 @@ def styl_przyciskow():
 def insetring_data_from_csv(wiersz):
     print("---" + wiersz[5])
     reset_all(1)
+    zakazane = ["TABLICZKA/R/4","TABLICA/U/3/E/"]
+    #if "TABLICA/U/3/E/" in wiersz[5]:
+    #    return False
+    for i in range(len(zakazane)):
+        if zakazane[i] in wiersz[5]:
+            return False
     pattern = r"(?:ZNAK|TABLICA\/U\/3\/[AB]|TABLICZKA).*\/[0-9x]*\/(?:OCO|AL)\/(?:1,25|1,5)\/(?:NM|M)\/K\/(?:F|0)\/(?:1|2|3)"
     if re.search(pattern,wiersz[5]):
         
@@ -1005,9 +1035,16 @@ def insetring_data_from_csv(wiersz):
         pole_rozmiaru_znaku.insert(0, znak[-1])
         del znak[-1]
         
+        #pole_nazwy_znaku.delete(0, tk.END)
+        #pole_nazwy_znaku.insert(0, str(znak).strip("[").strip("]").strip(",").strip("'"))
+        #pole_nazwy_znaku.insert(0,str(str(znak[0]) + str(znak[1])))
+        napis = ""
+        for i in range(len(znak)):
+            napis = napis + znak[i]
         pole_nazwy_znaku.delete(0, tk.END)
         #pole_nazwy_znaku.insert(0, str(znak).strip("[").strip("]").strip(",").strip("'"))
-        pole_nazwy_znaku.insert(0,str(str(znak[0]) + str(znak[1])))
+        pole_nazwy_znaku.insert(0,napis)
+        
         
         pole_ilosc_wimedek.delete(0, tk.END)
         pole_ilosc_wimedek.insert(0,str(wiersz[7]))
